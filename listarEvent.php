@@ -4,9 +4,10 @@
     include_once 'conexao.php';
 
     //query para recuperar os eventos
-    $query_events = "SELECT evt.id, evt.title, evt.color, evt.start, evt.end, evt.services, evt.user_id, usr.name, usr.email, usr.tel
+    $query_events = "SELECT evt.id, usr.name as title, evt.color, evt.start, evt.end, evt.obs, evt.user_id, evt.service_id, usr.name, usr.email, usr.tel, svc.name as 'service_name'
                     FROM events AS evt
-                    INNER JOIN users AS usr ON usr.id = evt.user_id";
+                    INNER JOIN users AS usr ON usr.id = evt.user_id
+                    INNER JOIN services AS svc ON svc.id = evt.service_id ";
 
     $result_events = $conn->prepare($query_events);
 
@@ -26,8 +27,10 @@
             'color' => $color,
             'start' => $start,
             'end' => $end,
-            'services' => $services,
+            'obs' => $obs,
             'user_id' => $user_id,
+            'service_id' => $service_id,
+            'service_name' => $service_name,
             'name' => $name,
             'email' => $email,
             'tel' => $tel,

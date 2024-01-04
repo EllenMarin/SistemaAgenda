@@ -5,12 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
 
 
-    <link rel="stylesheet" href="/css/custom.css">
+
+
+   
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+/>
+    <link rel="stylesheet" href="css/custom.css">
+    
+
     <title>Sistema de Agenda</title>
 
 </head>
@@ -44,22 +54,6 @@
                     <div id="visualizarEvento">
 
                         <dl class="row">
-                            <dt class="col-sm-3">ID: </dt>
-                            <dd class="col-sm-9" id="visualizarId"></dd>
-
-                            <dt class="col-sm-3">Titulo: </dt>
-                            <dd class="col-sm-9" id="visualizarTitle"></dd>
-
-                            <dt class="col-sm-3">Serviços: </dt>
-                            <dd class="col-sm-9" id="visualizarServices"></dd>
-
-                            <dt class="col-sm-3">Inicio: </dt>
-                            <dd class="col-sm-9" id="visualizarStart"></dd>
-
-                            <dt class="col-sm-3">Fim: </dt>
-                            <dd class="col-sm-9" id="visualizarEnd"></dd>
-
-
                             <dt class="col-sm-3">Id: </dt>
                             <dd class="col-sm-9" id="visualizarUser_id"></dd>
 
@@ -71,6 +65,21 @@
 
                             <dt class="col-sm-3">Telemóvel: </dt>
                             <dd class="col-sm-9" id="visualizarTel"></dd>
+
+                            <dt class="col-sm-3">ID: </dt>
+                            <dd class="col-sm-9" id="visualizarId"></dd>
+
+                            <dt class="col-sm-3">Serviço: </dt>
+                            <dd class="col-sm-9" id="visualizarServiceName"></dd>
+
+                            <dt class="col-sm-3">Observação: </dt>
+                            <dd class="col-sm-9" id="visualizarObs"></dd>
+
+                            <dt class="col-sm-3">Inicio: </dt>
+                            <dd class="col-sm-9" id="visualizarStart"></dd>
+
+                            <dt class="col-sm-3">Fim: </dt>
+                            <dd class="col-sm-9" id="visualizarEnd"></dd>
 
                         </dl>
 
@@ -88,18 +97,31 @@
                         <form method="POST" id="formEditEvento">
 
                             <input type="hidden" name="editId" id="editId">
-
+                            
                             <div class="row mb-3">
-                                <label for="editTitle" class="col-sm-2 col-form-label">Titulo</label>
+                                <label for="editUser_id" class="col-sm-2 col-form-label">Cliente</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="editTitle" class="form-control" id="editTitle" placeholder="Título do evento">
+                                    <select name="editUser_id" class="regColor" id="editUser_id">
+                                        <option value="">Selecione</option>
+
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for="editServices" class="col-sm-2 col-form-label">Serviços</label>
+                                <label for="editService_id" class="col-sm-2 col-form-label">Serviço</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="editServices" class="form-control" id="editServices" placeholder="Serviços">
+                                    <select name="editService_id" class="regColor" id="editService_id">
+                                        <option value="">Selecione</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="editObs" class="col-sm-2 col-form-label">Observação</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="editObs" class="form-control" id="editObs" placeholder="Observação">
                                 </div>
                             </div>
 
@@ -136,15 +158,7 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                            <label for="editUser_id" class="col-sm-2 col-form-label">Cliente</label>
-                            <div class="col-sm-10">
-                                <select name="editUser_id" class="regColor" id="editUser_id">
-                                    <option value="">Selecione</option>
-                                    
-                                </select>
-                            </div>
-                        </div>
+
 
                             <button type="button" name="btnViewEvento" class="btn btn-primary" id="btnViewEvento">Cancelar</button>
 
@@ -173,16 +187,29 @@
 
                     <form method="POST" id="formRegEvento">
                         <div class="row mb-3">
-                            <label for="regTitle" class="col-sm-2 col-form-label">Titulo</label>
+                            <label for="regUser_id" class="col-sm-2 col-form-label">Cliente</label>
                             <div class="col-sm-10">
-                                <input type="text" name="regTitle" class="form-control" id="regTitle" placeholder="Título do evento">
+                                <select name="regUser_id" class="regColor" id="regUser_id">
+                                    <option value="">Selecione</option>
+
+                                </select>
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="regServices" class="col-sm-2 col-form-label">Serviços</label>
+                            <label for="regService_id" class="col-sm-2 col-form-label">Serviço</label>
                             <div class="col-sm-10">
-                                <input type="text" name="regServices" class="form-control" id="regServices" placeholder="Serviço pretendido">
+                                <select name="regService_id" class="regColor" id="regService_id">
+                                    <option value="">Selecione</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="regObs" class="col-sm-2 col-form-label">Observação</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="regObs" class="form-control" id="regObs" placeholder="Observação">
                             </div>
                         </div>
 
@@ -219,16 +246,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="regUser_id" class="col-sm-2 col-form-label">Cliente</label>
-                            <div class="col-sm-10">
-                                <select name="regUser_id" class="regColor" id="regUser_id">
-                                    <option value="">Selecione</option>
-                                    
-                                </select>
-                            </div>
-                        </div>
-                        
+
+
 
                         <button type="submit" name="btnRegEvento" class="btn btn-success" id="btnRegEvento">Registrar</button>
                     </form>
@@ -238,6 +257,108 @@
             </div>
         </div>
     </div>
+
+    <!--modal criar cliente-->
+    <div class="modal fade" id="criarClienteModal" tabindex="-1" aria-labelledby="criarClienteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="criarCliente">Criar Cliente</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form method="POST" id="formCriarCliente">
+                        <div class="row mb-3">
+                            <label for="criarClienteNome" class="col-sm-2 col-form-label">Nome:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="criarClienteNome" class="form-control" id="criarClienteNome" placeholder="Nome e sobrenome">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="criarClienteEmail" class="col-sm-2 col-form-label">Email:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="criarClienteEmail" class="form-control" id="criarClienteEmail" placeholder="Email">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="criarClienteTel" class="col-sm-2 col-form-label">Telemóvel:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="criarClienteTel" class="form-control" id="criarClienteTel" placeholder="Telemóvel">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="criarClienteNasc" class="col-sm-2 col-form-label">Ano de Nascimento:</label>
+                            <div class="col-sm-10">
+                                <input type="date" name="criarClienteNasc" class="form-control" id="criarClienteNasc">
+                            </div>
+                        </div>
+
+
+                        <button type="submit" name="btnCriarCliente" class="btn btn-success" id="btnCriarCliente">Criar cliente</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--criar serviço-->
+    <div class="modal fade" id="criarServiceModal" tabindex="-1" aria-labelledby="criarServiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="criarService">Criar Serviço</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form method="POST" id="formCriarService">
+                        <div class="row mb-3">
+                            <label for="criarServiceNome" class="col-sm-2 col-form-label">Serviço:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="criarServiceNome" class="form-control" id="criarServiceNome" placeholder="Nome do serviço">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="criarServiceDuracao" class="col-sm-2 col-form-label">Duração:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="criarServiceDuracao" class="form-control" id="criarServiceDuracao" placeholder="Tempo estimado">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="criarServicePrecoSIva" class="col-sm-2 col-form-label">Preço s/iva:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="criarServicePrecoSIva" class="form-control" id="criarServicePrecoSIva">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="criarServicePrecoCIva" class="col-sm-2 col-form-label">Preço c/iva:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="criarServicePrecoCIva" class="form-control" id="criarServicePrecoCIva">
+                            </div>
+                        </div>
+
+
+                        <button type="submit" name="btnCriarService" class="btn btn-success" id="btnCriarService">Criar serviço</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <script src="js/sweetAlert2.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 

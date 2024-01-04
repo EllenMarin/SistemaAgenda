@@ -21,17 +21,19 @@ $result_user->execute();
 $row_user = $result_user->fetch(PDO::FETCH_ASSOC);
 
 //criar query editar evento no banco de dados
-$queryEditEvent = "UPDATE events SET title=:title, color=:color, start=:start, end=:end, services=:services, user_id=:user_id WHERE id=:id";
+$queryEditEvent = "UPDATE events SET title=:title, color=:color, start=:start, end=:end, obs=:obs, user_id=:user_id WHERE id=:id";
 
 $editEvent = $conn->prepare($queryEditEvent);
 
 //$dados['regColor'] = $dados['regColor'] ?: '#3788D8';
+$colorValue = $dados['editColor'] ?? '#3788D8';
+$editEvent->bindParam(':color', $colorValue);
 
 $editEvent->bindParam(':title', $dados['editTitle']);
-$editEvent->bindParam(':color', $dados['editColor']);
+//$editEvent->bindParam(':color', $dados['editColor']?? '#3788D8');
 $editEvent->bindParam(':start', $dados['editStart']);
 $editEvent->bindParam(':end', $dados['editEnd']);
-$editEvent->bindParam(':services', $dados['editServices']);
+$editEvent->bindParam(':obs', $dados['editObs']);
 $editEvent->bindParam(':user_id', $dados['editUser_id']);
 $editEvent->bindParam(':id', $dados['editId']);
 
@@ -39,14 +41,13 @@ $editEvent->bindParam(':id', $dados['editId']);
 if ($editEvent->execute()) {
     $retorna = [
         'status' => true, 
-        'msg' => 
-        ' Evento editado com sucesso!', 
+        'msg' => 'Evento editado com sucesso!', 
         'id' => $dados['editId'], 
-        'title' => $dados['editTitle'], 
-        'color' => $dados['editColor'], 
+        'title' => $row_user['name'], 
+        'color' => $colorValue, 
         'start' => $dados['editStart'], 
         'end' => $dados['editEnd'], 
-        'services' => $dados['editServices'],
+        'obs' => $dados['editObs'],
         'user_id' => $row_user['id'],
         'name' => $row_user['name'],
         'email' => $row_user['email'],
