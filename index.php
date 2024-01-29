@@ -10,16 +10,11 @@
 
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
-   
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
-/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <link rel="stylesheet" href="css/custom.css">
-    
+
 
     <title>Sistema de Agenda</title>
 
@@ -97,7 +92,7 @@
                         <form method="POST" id="formEditEvento">
 
                             <input type="hidden" name="editId" id="editId">
-                            
+
                             <div class="row mb-3">
                                 <label for="editUser_id" class="col-sm-2 col-form-label">Cliente</label>
                                 <div class="col-sm-10">
@@ -164,6 +159,22 @@
 
                             <button type="submit" name="btnEditEvento" class="btn btn-warning" id="btnEditEvento">Salvar</button>
                         </form>
+
+                    </div>
+
+                    <!--visualizarTodosClientes-->
+                    <div id="visualizarTodosClientes">
+
+                        <dl id="todosClientesTable" class="row">
+                        </dl>
+                        
+
+                    </div>
+
+                    <!--ver detalhes-->
+                    <div id="verDetalheCliente">
+
+                        
 
                     </div>
 
@@ -266,6 +277,7 @@
                     <h1 class="modal-title fs-5" id="criarCliente">Criar Cliente</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body">
 
                     <form method="POST" id="formCriarCliente">
@@ -299,7 +311,12 @@
 
 
                         <button type="submit" name="btnCriarCliente" class="btn btn-success" id="btnCriarCliente">Criar cliente</button>
+
+                        <button type="submit" name="btnVisualizarTodosClientes" class="btn btn-success" id="btnVisualizarTodosClientes">Todos os Clientes</button>
+                        <!--<i class="fa fa-search"> Clientes</i>-->
                     </form>
+
+
 
                 </div>
 
@@ -349,6 +366,43 @@
 
                         <button type="submit" name="btnCriarService" class="btn btn-success" id="btnCriarService">Criar serviço</button>
                     </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--visualizarTodosClientes-->
+    <div class="modal fade" id="visualizarTodosClientesModal" tabindex="-1" aria-labelledby="visualizarTodosClientesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="visualizarTodosClientes">Todos os Clientes</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div id="visualizarTodosClientes">
+
+                        <dl class="row">
+                            <dt class="col-sm-3">Id: </dt>
+                            <dd class="col-sm-9" id="visualizarUser_id"></dd>
+
+                            <dt class="col-sm-3">Nome: </dt>
+                            <dd class="col-sm-9" id="visualizarName"></dd>
+
+                            <dt class="col-sm-3">Telemóvel: </dt>
+                            <dd class="col-sm-9" id="visualizarTel"></dd>
+
+                            <hr>
+
+                        </dl>
+
+                        <button type="button" class="btn btn-warning" id="btnVerDetalhes">Ver Detalhes</button>
+
+
+                    </div>
 
                 </div>
 

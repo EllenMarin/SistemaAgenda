@@ -20,7 +20,10 @@ $result_service_existe->execute();
 $row_service_existe = $result_service_existe->fetch(PDO::FETCH_COLUMN);
 
 if(!empty($row_service_existe)){
-    $retorna = ['status' => false, 'msg' => 'Serviço já existe!'];
+    $retorna = [
+        'status' => false, 
+        'msg' => 'Serviço já existe!'
+    ];
     echo json_encode($retorna);
     die();
 }

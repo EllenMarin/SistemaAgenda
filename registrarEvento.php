@@ -2,7 +2,7 @@
 //arquivo com a conexao com o banco de dados
 include_once 'conexao.php';
 
-//receber dados enviado pelo javascript
+//receber dados através do metodo post
 $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if(!is_numeric($dados['regUser_id'])){
@@ -67,4 +67,5 @@ if ($regEvent->execute()) {
     $retorna = ['status' => false, 'msg' => ' Evento não registrado!'];
 }
 
+//convertendo array a cima em obj para retornar js
 echo json_encode($retorna);

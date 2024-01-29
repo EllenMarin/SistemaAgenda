@@ -1,5 +1,4 @@
 <?php 
-    //arquivo com a conexao com o banco de dados
     include_once 'conexao.php';
 
     //receber o id enviado pelo javascript

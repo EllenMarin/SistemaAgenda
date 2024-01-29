@@ -4,7 +4,7 @@
     include_once 'conexao.php';
 
     //query para recuperar os usuários
-    $query_users = "SELECT id, name FROM users ORDER BY NAME ASC";
+    $query_users = "SELECT id, name,tel FROM users ORDER BY NAME ASC";
     //$query_users = "SELECT id, name FROM users WHERE id = 100 ORDER BY NAME ASC";
 
     //preparar a query
@@ -14,7 +14,7 @@
     $result_users->execute();
 
     //acessa o if quando encontrar usuario no banco de dados
-    if(($result_users) and ($result_users->rowCount() != 0)){
+    if(($result_users) && ($result_users->rowCount() != 0)){
 
         //ler os registros recuperados do banco de dados
         $dados = $result_users->fetchAll((PDO::FETCH_ASSOC));

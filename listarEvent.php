@@ -9,7 +9,15 @@
                     INNER JOIN users AS usr ON usr.id = evt.user_id
                     INNER JOIN services AS svc ON svc.id = evt.service_id ";
 
+    if(!empty($_GET["user_id"])){
+        $query_events .= " WHERE evt.user_id = :user_id";
+    }
+
     $result_events = $conn->prepare($query_events);
+
+    if(!empty($_GET["user_id"])){
+        $result_events->bindParam(":user_id",$_GET["user_id"]);
+    }
 
     $result_events->execute();
 

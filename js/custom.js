@@ -1,28 +1,23 @@
 //executar quando o documento html for carregado completamente
 document.addEventListener('DOMContentLoaded', function () {
 
-
-
-
-  //receber o seletor calender do atributo id
   var calendarEl = document.getElementById('calendar');
 
-  //receber seletor da janela modal
   const registrarModal = new bootstrap.Modal(document.getElementById("registrarModal"));
-
-  //receber o SELETOR da janela modal 
   const visualizarModal = new bootstrap.Modal(document.getElementById("visualizarModal"));
-
-  //receber o SELETOR da janela modal 
   const criarClienteModal = new bootstrap.Modal(document.getElementById("criarClienteModal"));
-
-  //receber o SELETOR da janela modal 
   const criarServiceModal = new bootstrap.Modal(document.getElementById("criarServiceModal"));
 
   //receber o seletor msgViewEvento
   const msgViewEvento = document.getElementById('msgViewEvento');
 
-
+  function exibirModal(viewId) {
+    const views = document.querySelectorAll("#visualizarModal .modal-body > *");
+    for (const ele of views) {
+      ele.style.display = "none";
+    }
+    document.getElementById(viewId).style.display = "block";
+  }
   //instanciar fullcalender e atribuir a variavel calender
   var calendar = new FullCalendar.Calendar(calendarEl, {
 
@@ -98,6 +93,8 @@ document.addEventListener('DOMContentLoaded', function () {
       //ocultar o formulário editar de evento
       document.getElementById("editarEvento").style.display = "none";
       document.getElementById("editarModalLabel").style.display = "none";
+
+      document.getElementById("visualizarTodosClientes").style.display = "none";
 
       //enviar para a janela do modal os dados do evento
       document.getElementById("visualizarId").innerText = info.event.id;
@@ -197,16 +194,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return `${ano}-${mes}-${dia} ${hora}:${minuto}`;
   }
 
-  //receber o seletor do formulério registrar evento
   const formRegEvento = document.getElementById("formRegEvento");
-
-  //receber o seletor da mensagem generica
   const msg = document.getElementById("msg");
-
-  //receber o seletor da mensagem registarr evento
   const msgRegEvento = document.getElementById("msgRegEvento");
-
-  //receber o seletor do botao da janela modal evento
   const btnRegEvento = document.getElementById("btnRegEvento");
 
   //somente acessa o if quando existir o seletor "formRegEvento"
@@ -290,7 +280,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 3000)
   }
 
-  //receber seletor ocultar detalhes do evento e apresentar o formulário
   const btnViewEditEvento = document.getElementById("btnViewEditEvento");
 
   //somente acessa o IF quando existir o SELETOR "btnViewEditEvento"
@@ -331,10 +320,6 @@ document.addEventListener('DOMContentLoaded', function () {
         new Choices(editService_id).setChoices([], 'id', 'name', true);
       }
 
-      
-
-
-
     });
   }
 
@@ -356,14 +341,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
   }
-
-  //receber o seletor do formulario editar evento
   const formEditEvento = document.getElementById("formEditEvento");
-
-  //receber o seletor da mensagem editar evento
   const msgEditEvento = document.getElementById("msgEditEvento");
-
-  //receber o seletor do botao editar evento
   const btnEditEvento = document.getElementById("btnEditEvento");
 
   //somente acessa o if quando existir o seletor "formEditEvento"
@@ -601,6 +580,137 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
   }
+
+
+  const btnVisualizarTodosClientes = document.getElementById("btnVisualizarTodosClientes");
+
+  //somente acessa o IF quando existir o SELETOR "btnVisualizarTodosClientes"
+  if (btnVisualizarTodosClientes) {
+
+    //aguardar o usuario clicar no botao visualizarTodosClientes
+    btnVisualizarTodosClientes.addEventListener("click", async () => {
+      exibirModal("visualizarTodosClientes");
+
+      // gerar tabela lista de clientes
+      let tabela = '';
+
+      /*/chamar o arquivo php responsavel em salvar o evento
+const usuarios = await fetch("listarUsuarios.php", {
+  method: "GET",
+});
+debugger;*/
+
+      try {
+        const response = await fetch("listarUsuarios.php", {
+          method: "GET",
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erro ao obter os dados: ${response.statusText}`);
+        }
+
+        const usuarios = await response.json();
+
+
+        for (const user of usuarios.dados) {
+          tabela += `<dt class="col-sm-3">Id: </dt>
+        <dd class="col-sm-9">${user.id}</dd>
+  
+        <dt class="col-sm-3">Nome: </dt>
+        <dd class="col-sm-9" >${user.name}</dd>
+  
+        <dt class="col-sm-3">Telemóvel: </dt>
+        <dd class="col-sm-9">${user.tel}</dd>
+  
+        <!--<button type="button" class="btn btn-small btn-warning" id="btnVerDetalhes">Ver Detalhes</button>-->
+        <a href="#" class="verDetalheLink" data-user-id="${user.id}"  data-user-name="${user.name}" >Ver Detalhes</a>
+        <hr>
+        `;
+        }
+
+        document.getElementById("todosClientesTable").innerHTML = tabela;
+
+
+        visualizarModal.show();
+        criarClienteModal.hide();
+
+        // Adicionar evento de clique aos links "Ver Detalhes"
+        const detalheLinks = document.querySelectorAll(".verDetalheLink");
+        detalheLinks.forEach(link => {
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const userId = event.target.dataset.userId;
+            const userName= event.target.dataset.userName;
+            exibirDetalhesDoUsuario(userId, userName);
+          });
+        });
+
+      } catch (error) {
+        console.error("Erro:", error);
+      }
+    });
+
+  }
+
+  const verDetalheCliente = document.getElementById("verDetalheCliente");
+
+  // Função para exibir detalhes do usuário ao clicar no link "Ver Detalhes"
+  async function exibirDetalhesDoUsuario(userId,userName) {
+
+    const response = await fetch(`listarEvent.php?user_id=${userId}`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro ao obter os detalhes do usuário: ${response.statusText}`);
+    }
+
+    const detalhesUsuario = await response.json();
+
+    // Aqui você pode manipular os detalhes do usuário e exibi-los na interface
+    console.log('Detalhes do Usuário:', detalhesUsuario);
+
+    var listaDetalhesCliente = `<dl class="row">
+    <dt class="col-sm-3">Id: </dt>
+    <dd class="col-sm-9">${userId}</dd>
+
+    <dt class="col-sm-3">Nome: </dt>
+    <dd class="col-sm-9" >${userName}</dd>
+    </dl>
+  `;
+    for (const event of detalhesUsuario) {
+      listaDetalhesCliente += `
+        <dl class="row">
+          
+
+          <dt class="col-sm-3">ID: </dt>
+          <dd class="col-sm-9">${event.id}</dd>
+
+          <dt class="col-sm-3">Serviço: </dt>
+          <dd class="col-sm-9">${event.service_name}</dd>
+
+          <dt class="col-sm-3">Observação: </dt>
+          <dd class="col-sm-9">${event.obs}</dd>
+
+          <dt class="col-sm-3">Inicio: </dt>
+          <dd class="col-sm-9">${event.start}</dd>
+
+          <dt class="col-sm-3">Fim: </dt>
+          <dd class="col-sm-9">${event.end}</dd>
+
+      </dl>
+
+      <button type="button" class="btn btn-warning" id="btnViewEditEvento">Editar</button>
+
+      <button type="button" class="btn btn-danger" id="btnApagarEvento">Apagar</button>
+      `;
+    }
+    verDetalheCliente.innerHTML = listaDetalhesCliente;
+    exibirModal("verDetalheCliente");
+  }
+
+
+
 
 
 });
