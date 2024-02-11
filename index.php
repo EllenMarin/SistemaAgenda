@@ -46,7 +46,8 @@
 
                     <span id="msgViewEvento"></span>
 
-                    <div id="visualizarEvento">
+                    <!--Visualizar-->
+                    <div id="visualizarEvento" style="display: none;">
 
                         <dl class="row">
                             <dt class="col-sm-3">Id: </dt>
@@ -163,18 +164,18 @@
                     </div>
 
                     <!--visualizarTodosClientes-->
-                    <div id="visualizarTodosClientes">
+                    <div id="visualizarTodosClientes" style="display: none;">
 
                         <dl id="todosClientesTable" class="row">
                         </dl>
-                        
+
 
                     </div>
 
                     <!--ver detalhes-->
-                    <div id="verDetalheCliente">
+                    <div id="verDetalheCliente" style="display: none;">
 
-                        
+                    
 
                     </div>
 
@@ -310,7 +311,7 @@
                         </div>
 
 
-                        <button type="submit" name="btnCriarCliente" class="btn btn-success" id="btnCriarCliente">Criar cliente</button>
+                        <button type="submit" name="btnCriarCliente" class="btn btn-success" id="btnCriarCliente">Registrar</button>
 
                         <button type="submit" name="btnVisualizarTodosClientes" class="btn btn-success" id="btnVisualizarTodosClientes">Todos os Clientes</button>
                         <!--<i class="fa fa-search"> Clientes</i>-->
@@ -373,7 +374,7 @@
         </div>
     </div>
 
-    <!--visualizarTodosClientes-->
+    <!--visualizarTodosClientes
     <div class="modal fade" id="visualizarTodosClientesModal" tabindex="-1" aria-labelledby="visualizarTodosClientesModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -408,7 +409,7 @@
 
             </div>
         </div>
-    </div>
+    </div>-->
 
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 

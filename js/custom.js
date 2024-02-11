@@ -513,9 +513,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         //limpar formulario
         formCriarCliente.reset();
-
-
-
         //fechar a janela modal
         criarClienteModal.hide();
       }
@@ -640,7 +637,7 @@ debugger;*/
           link.addEventListener('click', (event) => {
             event.preventDefault();
             const userId = event.target.dataset.userId;
-            const userName= event.target.dataset.userName;
+            const userName = event.target.dataset.userName;
             exibirDetalhesDoUsuario(userId, userName);
           });
         });
@@ -655,7 +652,7 @@ debugger;*/
   const verDetalheCliente = document.getElementById("verDetalheCliente");
 
   // Função para exibir detalhes do usuário ao clicar no link "Ver Detalhes"
-  async function exibirDetalhesDoUsuario(userId,userName) {
+  async function exibirDetalhesDoUsuario(userId, userName) {
 
     const response = await fetch(`listarEvent.php?user_id=${userId}`, {
       method: "GET",
@@ -667,20 +664,28 @@ debugger;*/
 
     const detalhesUsuario = await response.json();
 
-    // Aqui você pode manipular os detalhes do usuário e exibi-los na interface
-    console.log('Detalhes do Usuário:', detalhesUsuario);
+    //  manipular os detalhes do usuário e exibi-los na interface
+    //console.log('Detalhes do Usuário:', detalhesUsuario);
 
     var listaDetalhesCliente = `<dl class="row">
+    <div class="d-flex gap-2 mb-3">
+    <button type="button" class="btn btn-secundary" id="btnVoltar">
+    <i class="bi bi-arrow-left-square" style="font-size: 25px; color: #a7a6a6; " ></i>
+    </button>
+    </div>
+
     <dt class="col-sm-3">Id: </dt>
     <dd class="col-sm-9">${userId}</dd>
 
     <dt class="col-sm-3">Nome: </dt>
     <dd class="col-sm-9" >${userName}</dd>
     </dl>
-  `;
+    `;
     for (const event of detalhesUsuario) {
       listaDetalhesCliente += `
-        <dl class="row">
+      <div class="evento">
+      
+      <dl class="row">
           
 
           <dt class="col-sm-3">ID: </dt>
@@ -699,15 +704,86 @@ debugger;*/
           <dd class="col-sm-9">${event.end}</dd>
 
       </dl>
+      
 
-      <button type="button" class="btn btn-warning" id="btnViewEditEvento">Editar</button>
+      <!--<button type="button" class="btn btn-warning" id="btnViewEditEvento">Editar</button>-->
 
-      <button type="button" class="btn btn-danger" id="btnApagarEvento">Apagar</button>
+      <button type="button" class="btn btn-danger btnApagarEvento" data-event-id=${event.id}>Apagar</button>
+      </div>
+      <hr>
       `;
     }
     verDetalheCliente.innerHTML = listaDetalhesCliente;
     exibirModal("verDetalheCliente");
+
+    //btnVoltar
+    const btnVoltar = document.getElementById("btnVoltar");
+
+    if (btnVoltar) {
+      btnVoltar.addEventListener("click", () => {
+        //apresentar detalhes do evento
+        document.getElementById("visualizarTodosClientes").style.display = "block";
+
+        document.getElementById("editarEvento").style.display = "none";
+        document.getElementById("verDetalheCliente").style.display = "none";
+        document.getElementById("visualizarEvento").style.display = "none";
+
+      });
+    }
+
+    //btnApagarTodosClientes
+    const btnsApagarEvento = document.querySelectorAll(".btnApagarEvento");
+    btnsApagarEvento.forEach(btn => (
+      btn.addEventListener("click", async () => {
+        const idEvento = btn.getAttribute('data-event-id');
+        const confirmacao = window.confirm("Tem a certeza de que deseja apagar este evento?");
+
+        if (confirmacao) {
+          // Remover o evento do calendário, se existir
+          const eventoExisteRemover = calendar.getEventById(idEvento);
+          if (eventoExisteRemover) {
+            eventoExisteRemover.remove();
+          }
+
+          // Enviar solicitação para apagar o evento no banco de dados
+          const dados = await fetch("apagarEvento.php?id=" + idEvento);
+          const resposta = await dados.json();
+
+          if (!resposta.status) {
+            console.error("Erro ao apagar evento:", resposta.msg);
+            // Exibir mensagem de erro, se necessário
+          } else {
+            msg.innerHTML = `<div class="alert alert-success" role="alert">
+             ${resposta['msg']}</div>`;
+
+          //Enviar mensagem para o html
+          msgViewEvento.innerHTML = "";
+
+          //Recuperar o evento no fullcalender
+          const eventoExisteRemover = calendar.getEventById(idEvento);
+
+          //Verificar se encontrou o evento no fullcalender
+          if (eventoExisteRemover) {
+
+            //remover o evento do calendario
+            eventoExisteRemover.remove();
+          }
+
+          //chamar função para remover a mensagem apos 3 segundos
+          removerMsg();
+
+          //visualizarModal.hide();
+          window.location.reload();
+        }
+        }
+
+      })
+      
+    ));
   }
+
+
+
 
 
 
