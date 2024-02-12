@@ -7,21 +7,21 @@ $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 
 //criar a query registrar eventos no banco de dados
-$queryCriarClient = "INSERT INTO client (name, email, tel, nascimento) VALUES (:name, :email, :tel, :nascimento)";
+$queryCriarUsers = "INSERT INTO users (name, email, tel, nascimento) VALUES (:name, :email, :tel, :nascimento)";
 
 
 
 //
-$criarClient = $conn->prepare($queryCriarClient);
+$criarUsers = $conn->prepare($queryCriarUsers);
 
 
-$criarClient->bindParam(':name', $dados['criarClienteNome']);
-$criarClient->bindParam(':email', $dados['criarClienteEmail']);
-$criarClient->bindParam(':tel', $dados['criarClienteTel']);
-$criarClient->bindParam(':nascimento', $dados['criarClienteNasc']);
+$criarUsers->bindParam(':name', $dados['criarClienteNome']);
+$criarUsers->bindParam(':email', $dados['criarClienteEmail']);
+$criarUsers->bindParam(':tel', $dados['criarClienteTel']);
+$criarUsers->bindParam(':nascimento', $dados['criarClienteNasc']);
 
 
-if ($criarClient->execute()) {
+if ($criarUsers->execute()) {
     $retorna = [
         'status' => true,
         'msg' => ' Cliente criado com sucesso!',

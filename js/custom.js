@@ -104,8 +104,13 @@ document.addEventListener('DOMContentLoaded', function () {
       document.getElementById("visualizarUser_id").innerText = info.event.extendedProps.user_id;
       document.getElementById("visualizarServiceName").innerText = info.event.extendedProps.service_name;
       document.getElementById("visualizarName").innerText = info.event.extendedProps.name;
-      document.getElementById("visualizarEmail").innerText = info.event.extendedProps.email;
-      document.getElementById("visualizarTel").innerText = info.event.extendedProps.tel;
+      //document.getElementById("visualizarEmail").innerText = info.event.extendedProps.email;
+      //document.getElementById("visualizarTel").innerText = info.event.extendedProps.tel;
+
+      document.getElementById("visualizarClient_id").innerText = info.event.extendedProps.client_id;
+      document.getElementById("visualizarNameClient").innerText = info.event.extendedProps.client_name;
+      document.getElementById("visualizarEmailClient").innerText = info.event.extendedProps.client_email;
+      document.getElementById("visualizarTelClient").innerText = info.event.extendedProps.client_tel;
 
       document.getElementById("visualizarStart").innerText = info.event.start.toLocaleString();
       document.getElementById("visualizarEnd").innerText = info.event.end !== null ? info.event.end.toLocaleString() : info.event.start.toLocaleString();
@@ -138,9 +143,19 @@ document.addEventListener('DOMContentLoaded', function () {
         new Choices(regService_id).setChoices([], 'id', 'name', true);
       }
 
+      //client
+      const dadosClient = await fetch('listarClient.php');
+      var regClient_id = document.getElementById('regClient_id');
+      const respostaClient = await dadosClient.json();
+      if (respostaClient['status']) {
+      new Choices(regClient_id).setChoices(respostaClient.dados, 'id', 'name', true);
+
+      } else {
+      new Choices(regClient_id).setChoices([], 'id', 'name', true);
+      }
 
       //chamar arquivo php responsavel em recuperar os usuários do banco de dados
-      const dados = await fetch('listarUsuarios.php');
+      const dados = await fetch('listarUser.php');
 
       //receber o seletor do campo usuario do formulario registrar
       var regUser_id = document.getElementById('regUser_id');
@@ -150,8 +165,6 @@ document.addEventListener('DOMContentLoaded', function () {
       //console.log(resposta);
 
       if (resposta['status']) {
-
-
         new Choices(regUser_id).setChoices(resposta.dados, 'id', 'name', true);
 
       } else {
@@ -250,6 +263,15 @@ document.addEventListener('DOMContentLoaded', function () {
           start: resposta['start'],
           end: resposta['end'],
           obs: resposta['obs'],
+
+          regService_id: resposta['service_id'],
+          service_name: resposta['service_name'],
+          
+          client_id: resposta['client_id'],
+          client_name: resposta['client_name'],
+          client_email: resposta['client_email'],
+          client_tel: resposta['client_tel'],
+          
           user_id: resposta['user_id'],
           name: resposta['name'],
           email: resposta['email'],
@@ -295,13 +317,28 @@ document.addEventListener('DOMContentLoaded', function () {
       document.getElementById("editarEvento").style.display = "block";
       document.getElementById("editarModalLabel").style.display = "block";
 
+      //receber o id dos cliente resonsavel pelo evento
+      var clientId = document.getElementById('visualizarClient_id').innerText;
+
+      //receber o seletor ndo campo client do formulario editar
+      var editClient_id = document.getElementById('editClient_id');
+      const dadosClient = await fetch('listarClient.php');
+      const respostaClient = await dadosClient.json();
+      //console.log(resposta);
+      if (respostaClient['status']) {
+        new Choices(editClient_id).setChoices(respostaClient.dados, 'id', 'name', true);
+        
+      } else {
+        new Choices(editClient_id).setChoices([], 'id', 'name', true);
+      }
+      
+
       //receber o id dos usuario resonsavel pelo evento
       var userId = document.getElementById('visualizarUser_id').innerText;
 
-      //receber o seletor ndo campo usuario do formulario editar
       var editUser_id = document.getElementById('editUser_id');
       //chamar arquivo php responsavel em recuperar os usuários do banco de dados
-      const dados = await fetch('listarUsuarios.php');
+      const dados = await fetch('listarUser.php');
       const resposta = await dados.json();
       //console.log(resposta);
       if (resposta['status']) {
@@ -394,10 +431,20 @@ document.addEventListener('DOMContentLoaded', function () {
           eventoExiste.setProp('title', resposta['title']);
           eventoExiste.setProp('color', resposta['color']);
           eventoExiste.setExtendedProp('obs', resposta['obs']);
+
+          eventoExiste.setExtendedProp('service_id', resposta['service_id']);
+          eventoExiste.setExtendedProp('service_name', resposta['service_name']);
+
           eventoExiste.setExtendedProp('user_id', resposta['user_id']);
           eventoExiste.setExtendedProp('name', resposta['name']);
           eventoExiste.setExtendedProp('email', resposta['email']);
           eventoExiste.setExtendedProp('tel', resposta['tel']);
+
+          eventoExiste.setExtendedProp('client_id', resposta['client_id']);
+          eventoExiste.setExtendedProp('client_name', resposta['client_name']);
+          eventoExiste.setExtendedProp('client_email', resposta['client_email']);
+          eventoExiste.setExtendedProp('client_tel', resposta['client_tel']);
+          
           eventoExiste.setStart(resposta['start']);
           eventoExiste.setEnd(resposta['end']);
 
@@ -418,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function () {
   //receber o seletor apagar evento
   const btnApagarEvento = document.getElementById("btnApagarEvento");
 
-  //somente acessa o if quando existir o seletor "formEditEvento"
+  //somente acessa o if quando existir o seletor "btnApagarEvento"
   if (btnApagarEvento) {
 
     //Aguardar o usuário clicar no botão apagar
@@ -598,7 +645,7 @@ const usuarios = await fetch("listarUsuarios.php", {
 debugger;*/
 
       try {
-        const response = await fetch("listarUsuarios.php", {
+        const response = await fetch("listarClient.php", {
           method: "GET",
         });
 
@@ -609,18 +656,18 @@ debugger;*/
         const usuarios = await response.json();
 
 
-        for (const user of usuarios.dados) {
+        for (const client of usuarios.dados) {
           tabela += `<dt class="col-sm-3">Id: </dt>
-        <dd class="col-sm-9">${user.id}</dd>
+        <dd class="col-sm-9">${client.id}</dd>
   
         <dt class="col-sm-3">Nome: </dt>
-        <dd class="col-sm-9" >${user.name}</dd>
+        <dd class="col-sm-9" >${client.name}</dd>
   
         <dt class="col-sm-3">Telemóvel: </dt>
-        <dd class="col-sm-9">${user.tel}</dd>
+        <dd class="col-sm-9">${client.tel}</dd>
   
         <!--<button type="button" class="btn btn-small btn-warning" id="btnVerDetalhes">Ver Detalhes</button>-->
-        <a href="#" class="verDetalheLink" data-user-id="${user.id}"  data-user-name="${user.name}" >Ver Detalhes</a>
+        <a href="#" class="verDetalheLink" data-client-id="${client.id}"  data-client-name="${client.name}" >Ver Detalhes</a>
         <hr>
         `;
         }
@@ -636,9 +683,9 @@ debugger;*/
         detalheLinks.forEach(link => {
           link.addEventListener('click', (event) => {
             event.preventDefault();
-            const userId = event.target.dataset.userId;
-            const userName = event.target.dataset.userName;
-            exibirDetalhesDoUsuario(userId, userName);
+            const clientId = event.target.dataset.clientId;
+            const clientName = event.target.dataset.clientName;
+            exibirDetalhesDoUsuario(clientId, clientName);
           });
         });
 
@@ -652,11 +699,12 @@ debugger;*/
   const verDetalheCliente = document.getElementById("verDetalheCliente");
 
   // Função para exibir detalhes do usuário ao clicar no link "Ver Detalhes"
-  async function exibirDetalhesDoUsuario(userId, userName) {
+  async function exibirDetalhesDoUsuario(clientId, clientName) {
 
-    const response = await fetch(`listarEvent.php?user_id=${userId}`, {
+    const response = await fetch(`listarEvent.php?client_id=${clientId}`, {
       method: "GET",
     });
+    console.log(clientId);
 
     if (!response.ok) {
       throw new Error(`Erro ao obter os detalhes do usuário: ${response.statusText}`);
@@ -675,10 +723,10 @@ debugger;*/
     </div>
 
     <dt class="col-sm-3">Id: </dt>
-    <dd class="col-sm-9">${userId}</dd>
+    <dd class="col-sm-9">${clientId}</dd>
 
     <dt class="col-sm-3">Nome: </dt>
-    <dd class="col-sm-9" >${userName}</dd>
+    <dd class="col-sm-9" >${clientName}</dd>
     </dl>
     `;
     for (const event of detalhesUsuario) {

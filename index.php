@@ -50,17 +50,32 @@
                     <div id="visualizarEvento" style="display: none;">
 
                         <dl class="row">
+
+                            <dt class="col-sm-3">Id: </dt>
+                            <dd class="col-sm-9" id="visualizarClient_id"></dd>
+
+                            <dt class="col-sm-3">Cliente: </dt>
+                            <dd class="col-sm-9" id="visualizarNameClient"></dd>
+
+                            <dt class="col-sm-3">E-mail: </dt>
+                            <dd class="col-sm-9" id="visualizarEmailClient"></dd>
+
+                            <dt class="col-sm-3">Telemóvel: </dt>
+                            <dd class="col-sm-9" id="visualizarTelClient"></dd>
+                            <hr>
+                             
                             <dt class="col-sm-3">Id: </dt>
                             <dd class="col-sm-9" id="visualizarUser_id"></dd>
 
-                            <dt class="col-sm-3">Nome: </dt>
+                            <dt class="col-sm-3">Profissional: </dt>
                             <dd class="col-sm-9" id="visualizarName"></dd>
 
-                            <dt class="col-sm-3">E-mail: </dt>
+                           <!-- <dt class="col-sm-3">E-mail do Profissional: </dt>
                             <dd class="col-sm-9" id="visualizarEmail"></dd>
 
-                            <dt class="col-sm-3">Telemóvel: </dt>
-                            <dd class="col-sm-9" id="visualizarTel"></dd>
+                            <dt class="col-sm-3">Telemóvel do Profissional: </dt>
+                            <dd class="col-sm-9" id="visualizarTel"></dd>-->
+                            <hr>
 
                             <dt class="col-sm-3">ID: </dt>
                             <dd class="col-sm-9" id="visualizarId"></dd>
@@ -95,9 +110,9 @@
                             <input type="hidden" name="editId" id="editId">
 
                             <div class="row mb-3">
-                                <label for="editUser_id" class="col-sm-2 col-form-label">Cliente</label>
+                                <label for="editClient_id" class="col-sm-2 col-form-label">Cliente</label>
                                 <div class="col-sm-10">
-                                    <select name="editUser_id" class="regColor" id="editUser_id">
+                                    <select name="editClient_id" class="regColor" id="editClient_id">
                                         <option value="">Selecione</option>
 
                                     </select>
@@ -153,7 +168,16 @@
                                     </select>
                                 </div>
                             </div>
+                            
+                            <div class="row mb-3">
+                                <label for="editUser_id" class="col-sm-2 col-form-label">Profissional</label>
+                                <div class="col-sm-10">
+                                    <select name="editUser_id" class="regColor" id="editUser_id">
+                                        <option value="">Selecione</option>
 
+                                    </select>
+                                </div>
+                            </div>
 
 
                             <button type="button" name="btnViewEvento" class="btn btn-primary" id="btnViewEvento">Cancelar</button>
@@ -175,7 +199,7 @@
                     <!--ver detalhes-->
                     <div id="verDetalheCliente" style="display: none;">
 
-                    
+
 
                     </div>
 
@@ -199,7 +223,17 @@
 
                     <form method="POST" id="formRegEvento">
                         <div class="row mb-3">
-                            <label for="regUser_id" class="col-sm-2 col-form-label">Cliente</label>
+                            <label for="regClient_id" class="col-sm-2 col-form-label">Cliente</label>
+                            <div class="col-sm-10">
+                                <select name="regClient_id" class="regColor" id="regClient_id">
+                                    <option value="">Selecione</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="regUser_id" class="col-sm-2 col-form-label">Profissional</label>
                             <div class="col-sm-10">
                                 <select name="regUser_id" class="regColor" id="regUser_id">
                                     <option value="">Selecione</option>
