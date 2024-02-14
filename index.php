@@ -1,3 +1,8 @@
+<?php 
+//gerar senha criptografada
+//echo password_hash("123456", PASSWORD_DEFAULT);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-pt">
 
@@ -21,12 +26,69 @@
 </head>
 
 <body>
-    <div class="container">
+    <!--login-->
+    <div class="container text-center">
+        <!--substituir o botao pelos bem vindo dadosUsuario
+        <div id="dadosUsuario">
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Acessar</button>
+        </div>
+   -->
+   
 
+    <?php 
+    session_start();
+    if(isset($_SESSION['id']) and (isset($_SESSION['name']))){
+        echo "<h2>Bem vindo " . $_SESSION['name'] . "<br></h2>";
+        echo "<a href='sair.php'><i class='bi bi-box-arrow-left' style='font-size: 24px; color: grey;'></i></a><br>";
+    }else{
+        echo "<div id='dadosUsuario'>";
+        echo "<button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' data-bs-target='#loginModal'>Acessar</button>";
+       echo "</div>";
+    }
+    
+    ?>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="loginModalLabel">Faça seu login</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                <form id="loginForm">
+                        <span id="msgAlertLogin"></span>
+                            <div class="row mb-3">
+                                <label for="email" class="col-sm-2 col-form-label">Usuário:
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="email" class="form-control" id="email" placeholder="Usuário">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="password" class="col-sm-2 col-form-label">Password:
+
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="password" name="password" class="form-control" id="password" autocomplete="on" placeholder="Password">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary" data-bs-toggle="modal" id="btnLoginSubmit">Entrar</button>
+                        </form>
+                
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" id="agenda" style="display: none;">
         <h2 class="mb-4">Agenda</h2>
-
         <span id="msg"></span>
-
         <div id='calendar'></div>
     </div>
 
@@ -63,14 +125,14 @@
                             <dt class="col-sm-3">Telemóvel: </dt>
                             <dd class="col-sm-9" id="visualizarTelClient"></dd>
                             <hr>
-                             
+
                             <dt class="col-sm-3">Id: </dt>
                             <dd class="col-sm-9" id="visualizarUser_id"></dd>
 
                             <dt class="col-sm-3">Profissional: </dt>
                             <dd class="col-sm-9" id="visualizarName"></dd>
 
-                           <!-- <dt class="col-sm-3">E-mail do Profissional: </dt>
+                            <!-- <dt class="col-sm-3">E-mail do Profissional: </dt>
                             <dd class="col-sm-9" id="visualizarEmail"></dd>
 
                             <dt class="col-sm-3">Telemóvel do Profissional: </dt>
@@ -168,7 +230,7 @@
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <div class="row mb-3">
                                 <label for="editUser_id" class="col-sm-2 col-form-label">Profissional</label>
                                 <div class="col-sm-10">

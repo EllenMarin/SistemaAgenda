@@ -7,8 +7,8 @@
     $port = 3306;
 ini_set("display_errors",1);
     try{
-        //conexao coma porta
-        //$con = new PDO("mysql:host|=$host;port=$port;dbname=$dbname=".$dbname, $user, $pass);
+        //conexao com a porta
+        //$con = new PDO("mysql:host=$host;port=$port;dbname=$dbname=".$dbname, $user, $pass);
 
         //conexão sem a porta
         $conn = new PDO("mysql:host=$host;dbname=".$dbname, $user, $pass);

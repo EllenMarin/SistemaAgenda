@@ -1,5 +1,39 @@
-//executar quando o documento html for carregado completamente
-document.addEventListener('DOMContentLoaded', function () {
+
+const loginForm = document.getElementById("loginForm");
+const msgAlertLogin = document.getElementById("msgAlertLogin");
+const loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+const agenda = document.getElementById("agenda");
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if(document.getElementById("email").value === ""){
+      msgAlertLogin.innerHTML = "<div class='alert alert-danger' role='alert'>Erro: Necessário preencher o campo usuário</div>";
+    }else if(document.getElementById("password").value === ""){
+      msgAlertLogin.innerHTML = "<div class='alert alert-danger' role='alert'>Erro: Necessário preencher o campo password</div>";
+    }else{
+      const dadosForm = new FormData(loginForm);
+
+      const dadosFormLogin = await fetch("validar.php", {
+        method: "POST",
+        body: dadosForm
+      });
+
+      const respostaDadosFormLogin = await dadosFormLogin.json();
+      
+
+      if(respostaDadosFormLogin['erro']){
+        msgAlertLogin.innerHTML = respostaDadosFormLogin['msg'];
+      }else{
+        document.getElementById("dadosUsuario").innerHTML = "<h2>Bem vindo " + respostaDadosFormLogin['dadosBD'].name + "<br></h2><a href='sair.php'><i class='bi bi-box-arrow-left' style='font-size: 24px; color: grey;'></i></a><br>";
+        loginForm.reset();
+        loginModal.hide();
+        agenda.style.display = "block";
+      }
+    }
+  });
+  
+  document.addEventListener('DOMContentLoaded', function () {
 
   var calendarEl = document.getElementById('calendar');
 
@@ -56,25 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
     selectable: true,
     //visualmente a area selecionada
     selectMirror: true,
-
-    /*pop up para adcionar evento na agenda
-    select: function(arg) {
-      var title = prompt('Event Title:');
-      if (title) {
-        calendar.addEvent({
-          title: title,
-          start: arg.start,
-          end: arg.end,
-          allDay: arg.allDay
-        })
-      }
-      calendar.unselect()
-    },
-    eventClick: function(arg) {
-      if (confirm('Are you sure you want to delete this event?')) {
-        arg.event.remove()
-      }
-    },*/
 
     //permitir arrastar e redimencionar
     editable: true,
