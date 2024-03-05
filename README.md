@@ -1,7 +1,8 @@
 # Online Scheduling System
+<p>Our agenda harnesses the power of FullCalendar library, complemented by Bootstrap JavaScript, CSS, HTML, PHP, and MySQL.</p>
 &nbsp;&nbsp;&nbsp;
 
-## Login
+### Login
 <p>Before we start exploring the online agenda I'm developing, it's necessary to log in with a unique username and password. The system ensures no duplicate registrations and requires email authentication for added security</p>
 <img align="center" style="margin-bottom:10px" width=100% src="https://github.com/EllenMarin/SistemaAgenda/blob/main/img-readme/1.png" />
 &nbsp;
